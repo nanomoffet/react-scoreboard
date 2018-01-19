@@ -31,7 +31,7 @@ function Player(props) {
                 {props.name}
             </div>
             <div className="player-score">
-                <Counter score={props.score}/>
+                <Counter/>
             </div>
         </div>
     );
@@ -39,15 +39,33 @@ function Player(props) {
 
 var Counter = React.createClass({
     propTypes: {
-        score: React.PropTypes.number.isRequired
+        initialScore: React.PropTypes.number.isRequired,
+    },
+
+    getInitialState: function() {
+      return {
+          score: this.props.initialScore,
+      }
+    },
+
+    incrementScore: function() {
+        this.setState({
+            score: (this.state.score + 1)
+        })
+    },
+
+    decrementScore: function() {
+        this.setState({
+            score: (this.state.score - 1)
+        })
     },
 
     render: function () {
         return (
             <div className="counter">
-                <button className="counter-action decrement"> -</button>
-                <div className="counter-score">{this.props.score}</div>
-                <button className="counter-action increment"> +</button>
+                <button className="counter-action decrement" onClick={this.decrementScore}> - </button>
+                <div className="counter-score">{this.state.score}</div>
+                <button className="counter-action increment" onClick={this.incrementScore}> + </button>
             </div>
         )
     }
